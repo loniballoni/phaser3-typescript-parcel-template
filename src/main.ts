@@ -1,18 +1,29 @@
 import Phaser from 'phaser'
 
-import HelloWorldScene from './scenes/HelloWorldScene'
+import Preloader from './scenes/Preloader'
+import Game from './scenes/Game'
+import GameUI from './scenes/GameUI'
+import LevelFinishedScene from './scenes/LevelFinishedScene'
 
-const config: Phaser.Types.Core.GameConfig = {
+import { Plugin as NineSlicePlugin } from 'phaser3-nineslice'
+
+export default new Phaser.Game({
 	type: Phaser.AUTO,
-	width: 800,
-	height: 600,
+	width: window.innerWidth * 0.5,
+	height: window.innerHeight * 0.5,
+	pixelArt: true,
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 200 }
+			gravity: { y: 0 },
+			//debug: true
 		}
 	},
-	scene: [HelloWorldScene]
-}
-
-export default new Phaser.Game(config)
+	plugins: {
+		global: [NineSlicePlugin.DefaultCfg]
+	},
+	scene: [Preloader, Game, GameUI, LevelFinishedScene],
+	scale: {
+		zoom: 2
+	}
+})
